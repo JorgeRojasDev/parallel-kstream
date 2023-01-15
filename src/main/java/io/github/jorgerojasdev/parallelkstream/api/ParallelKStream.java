@@ -1,8 +1,7 @@
 package io.github.jorgerojasdev.parallelkstream.api;
 
-import io.github.jorgerojasdev.parallelkstream.internal.SubTopology;
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
-import io.github.jorgerojasdev.parallelkstream.internal.model.node.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.state.ProcessorContext;
 
 import java.util.Collection;
@@ -26,9 +25,9 @@ public interface ParallelKStream<K, V> {
 
     <NV> ParallelKStream<K, NV> flatMapValues(Function<Record<K, V>, Stream<NV>> flatMapFunction);
 
-    <NK, NV> ParallelKStream<NK, NV> transform(BiFunction<ProcessorContext, Record<K, V>, KeyValue<NK, NV>> transformFunction);
+    <NK, NV> ParallelKStream<NK, NV> process(BiFunction<ProcessorContext, Record<K, V>, KeyValue<NK, NV>> transformFunction);
 
-    <NV> ParallelKStream<K, NV> transformValues(BiFunction<ProcessorContext, Record<K, V>, NV> transformValuesFunction);
+    <NV> ParallelKStream<K, NV> processValues(BiFunction<ProcessorContext, Record<K, V>, NV> transformValuesFunction);
 
     ParallelKStream<K, V> peek(Consumer<Record<K, V>> peekConsumer);
 
@@ -39,6 +38,4 @@ public interface ParallelKStream<K, V> {
     void to(String topic);
 
     void to(Collection<String> topicCollection);
-
-    SubTopology build();
 }

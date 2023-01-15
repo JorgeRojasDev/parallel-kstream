@@ -1,6 +1,5 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.common;
 
-import io.github.jorgerojasdev.parallelkstream.internal.model.node.KeyValue;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

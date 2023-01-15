@@ -1,5 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
 import io.github.jorgerojasdev.parallelkstream.utils.NodeUtils;
 
@@ -9,7 +10,7 @@ import java.util.function.Function;
 
 public class MapNode<K, V, NK, NV> extends Node<K, V, NK, NV> {
 
-    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-MAP-NODE";
+    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-MAP";
 
     public MapNode(Function<Record<K, V>, KeyValue<NK, NV>> mapFunction) {
         super(NodeUtils.defaultNodeName(DEFAULT_NAME), modifyMapFunction(mapFunction));

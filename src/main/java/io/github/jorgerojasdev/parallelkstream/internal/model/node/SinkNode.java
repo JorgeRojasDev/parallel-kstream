@@ -1,5 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
 import io.github.jorgerojasdev.parallelkstream.utils.NodeUtils;
 
@@ -10,7 +11,7 @@ import java.util.function.Function;
 
 public class SinkNode<K, V> extends Node<K, V, K, V> {
 
-    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-SINK-NODE";
+    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-SINK";
 
     public SinkNode(Collection<String> topics) {
         super(NodeUtils.defaultNodeName(DEFAULT_NAME), sinkFunction(topics));

@@ -1,5 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
 import lombok.AccessLevel;
 import lombok.Getter;

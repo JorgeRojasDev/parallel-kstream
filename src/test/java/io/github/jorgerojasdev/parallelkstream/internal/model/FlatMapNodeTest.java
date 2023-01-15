@@ -1,13 +1,9 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model;
 
 import io.github.jorgerojasdev.parallelkstream.api.ParallelKStream;
-import io.github.jorgerojasdev.parallelkstream.api.ParallelStreamsBuilder;
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
-import io.github.jorgerojasdev.parallelkstream.internal.model.node.KeyValue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FlatMapNodeTest {
-
-    private ParallelKStream<String, String> parallelKStream;
-    private static final Logger LOGGER = LoggerFactory.getLogger(FlatMapNodeTest.class);
-
-    @BeforeEach
-    void restoreParallelKStream() {
-        parallelKStream = new ParallelStreamsBuilder().stream("test");
-    }
+class FlatMapNodeTest extends AbstractNodeTest {
 
     @Test
     void whenFlatMapReturnsThreeValidKeyValuesThenForwardsSameNumberOfMappedValues() {
@@ -40,8 +28,8 @@ class FlatMapNodeTest {
                     return null;
                 });
 
-        parallelFilteredKStream.build().
-                process(Record.<String, String>builder().key("testkey").value("valueKey").build());
+        parallelStreamsBuilder.build().subTopologies().get(0)
+                .process(Record.<String, String>builder().key("testkey").value("valueKey").build());
 
         assertFalse(elementsForwarded.isEmpty());
         assertEquals(3, elementsForwarded.size());
@@ -67,8 +55,8 @@ class FlatMapNodeTest {
                     return null;
                 });
 
-        parallelFilteredKStream.build().
-                process(Record.<String, String>builder().key("testkey").value("testValue").build());
+        parallelStreamsBuilder.build().subTopologies().get(0)
+                .process(Record.<String, String>builder().key("testkey").value("testValue").build());
 
         assertTrue(elementsForwarded.isEmpty());
     }

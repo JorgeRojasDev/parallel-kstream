@@ -1,5 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
 import io.github.jorgerojasdev.parallelkstream.utils.NodeUtils;
 
@@ -10,7 +11,7 @@ import java.util.function.Function;
 
 public class ForEachNode<K, V> extends Node<K, V, K, V> {
 
-    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FOREACH-NODE";
+    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FOREACH";
 
     public ForEachNode(Consumer<Record<K, V>> peekConsumer) {
         super(NodeUtils.defaultNodeName(DEFAULT_NAME), forEachFunction(peekConsumer));

@@ -1,4 +1,4 @@
-package io.github.jorgerojasdev.parallelkstream.internal.model.node;
+package io.github.jorgerojasdev.parallelkstream.internal.model.common;
 
 import lombok.Getter;
 

@@ -1,5 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
+import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
 import io.github.jorgerojasdev.parallelkstream.utils.NodeUtils;
 
@@ -10,7 +11,7 @@ import java.util.function.Predicate;
 
 public class FilterNotNode<K, V> extends Node<K, V, K, V> {
 
-    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FILTER-NOT-NODE";
+    public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FILTER-NOT";
 
     public FilterNotNode(Predicate<Record<K, V>> predicate) {
         super(NodeUtils.defaultNodeName(DEFAULT_NAME), filterFunction(predicate));
