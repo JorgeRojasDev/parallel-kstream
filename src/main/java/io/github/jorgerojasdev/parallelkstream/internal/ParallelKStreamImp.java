@@ -106,9 +106,9 @@ public class ParallelKStreamImp<K, V> implements ParallelKStream<K, V> {
         to(List.of(topic));
     }
 
-    //TODO
     @Override
     public void to(Collection<String> topicCollection) {
-        //TODO
+        Node<?, ?, ?, ?> newNode = new SinkNode<>(topicCollection, topology.getProperties().producerProps());
+        currentSubTopology.addNode(fromNode, newNode);
     }
 }

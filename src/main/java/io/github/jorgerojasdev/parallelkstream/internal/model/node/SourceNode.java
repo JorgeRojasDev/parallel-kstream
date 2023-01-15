@@ -2,6 +2,7 @@ package io.github.jorgerojasdev.parallelkstream.internal.model.node;
 
 import io.confluent.parallelconsumer.ParallelConsumerOptions;
 import io.confluent.parallelconsumer.ParallelStreamProcessor;
+import io.confluent.parallelconsumer.PollContext;
 import io.github.jorgerojasdev.parallelkstream.exception.TopologyException;
 import io.github.jorgerojasdev.parallelkstream.internal.model.properties.ParallelKStreamProperties;
 import io.github.jorgerojasdev.parallelkstream.utils.ParallelConsumerPropsUtils;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class SourceNode<K, V> {
     private final Collection<String> topicCollection;
     private final ParallelKStreamProperties properties;
-    private final ParallelStreamProcessor<K, V> processor;
+    private ParallelStreamProcessor<K, V> processor;
 
     public SourceNode(Collection<String> topicCollection, ParallelKStreamProperties properties) {
         if (topicCollection == null || topicCollection.isEmpty()) {
@@ -27,7 +28,31 @@ public class SourceNode<K, V> {
         }
         this.topicCollection = topicCollection;
         this.properties = properties;
+    }
+
+    public void init() {
         this.processor = createParallelStreamProcessor(topicCollection, properties);
+    }
+
+    public void start(java.util.function.Consumer<PollContext<K, V>> pollContextConsumer) {
+        initIfUninitialized();
+        processor.poll(pollContextConsumer);
+    }
+
+    public void pause() {
+        initIfUninitialized();
+        processor.pauseIfRunning();
+    }
+
+    public void resume() {
+        initIfUninitialized();
+        processor.resumeIfPaused();
+    }
+
+    private void initIfUninitialized() {
+        if (processor == null) {
+            init();
+        }
     }
 
     private ParallelStreamProcessor<K, V> createParallelStreamProcessor(Collection<String> topicCollection,

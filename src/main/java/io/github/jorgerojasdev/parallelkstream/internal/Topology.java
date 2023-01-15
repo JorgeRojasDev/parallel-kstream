@@ -26,4 +26,20 @@ public class Topology {
         subTopologiesMap.forEach((name, subTopology) -> subTopologies.add(subTopology));
         return subTopologies;
     }
+
+    public void init() {
+        subTopologies().forEach(SubTopology::init);
+    }
+
+    public void start() {
+        subTopologies().forEach(SubTopology::start);
+    }
+
+    public void pause() {
+        subTopologies().forEach(SubTopology::pause);
+    }
+
+    public void resume() {
+        subTopologies().forEach(SubTopology::resume);
+    }
 }

@@ -1,9 +1,11 @@
 package io.github.jorgerojasdev.parallelkstream.internal.model.common;
 
+import io.github.jorgerojasdev.parallelkstream.exception.DeserializationException;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Headers;
 
 @Builder
@@ -34,5 +36,23 @@ public class Record<K, V> {
                 .key(keyValue.getKey())
                 .value(keyValue.getValue())
                 .build();
+    }
+
+    public static <K, V> Record<K, V> fromConsumerRecord(ConsumerRecord<K, V> consumerRecord) {
+        try {
+            K key = consumerRecord.key();
+            V value = consumerRecord.value();
+            return Record.<K, V>builder()
+                    .key(key)
+                    .value(value)
+                    .headers(consumerRecord.headers())
+                    .timestamp(consumerRecord.timestamp())
+                    .partition(consumerRecord.partition())
+                    .offset(consumerRecord.offset())
+                    .topic(consumerRecord.topic())
+                    .build();
+        } catch (Throwable e) {
+            throw new DeserializationException(e.getMessage(), e);
+        }
     }
 }
