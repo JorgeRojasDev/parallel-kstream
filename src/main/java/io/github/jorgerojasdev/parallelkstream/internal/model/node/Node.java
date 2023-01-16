@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -18,8 +18,12 @@ import java.util.stream.Stream;
 public abstract class Node<K, V, NK, NV> {
 
     private final String nodeName;
-    private final Set<String> children = new HashSet<>();
+    private final Set<String> children = new LinkedHashSet<>();
     private final Function<Record<K, V>, List<KeyValue<NK, NV>>> nodeFunction;
+
+    public Set<String> toChildrenRefs(Record<?, ?> recordKv) {
+        return children;
+    }
 
     public void addChild(Node<?, ?, ?, ?> child) {
         children.add(child.getNodeName());
@@ -27,6 +31,7 @@ public abstract class Node<K, V, NK, NV> {
 
     @SuppressWarnings("unchecked")
     public List<Record<NK, NV>> process(Record<?, ?> recordKv) {
+
         List<KeyValue<NK, NV>> keyValueList = nodeFunction.apply((Record<K, V>) recordKv);
 
         return keyValueList.stream().flatMap(keyValue -> {

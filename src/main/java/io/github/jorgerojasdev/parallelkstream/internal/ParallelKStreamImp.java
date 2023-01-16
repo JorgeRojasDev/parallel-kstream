@@ -1,6 +1,6 @@
 package io.github.jorgerojasdev.parallelkstream.internal;
 
-import io.github.jorgerojasdev.parallelkstream.api.ParallelBranchedKStream;
+import io.github.jorgerojasdev.parallelkstream.api.ParallelBranchingKStream;
 import io.github.jorgerojasdev.parallelkstream.api.ParallelKStream;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.KeyValue;
 import io.github.jorgerojasdev.parallelkstream.internal.model.common.Record;
@@ -89,10 +89,14 @@ public class ParallelKStreamImp<K, V> implements ParallelKStream<K, V> {
         return new ParallelKStreamImp<>(topology, currentSubTopology, newNode);
     }
 
-    //TODO
     @Override
-    public ParallelBranchedKStream<K, V> split() {
-        return null;
+    public ParallelBranchingKStream<K, V> split() {
+        return ParallelBranchingKStreamImp.<K, V>builder()
+                .topology(topology)
+                .currentSubTopology(currentSubTopology)
+                .splitNode(new SplitNode<>())
+                .fromNode(fromNode)
+                .build();
     }
 
     @Override

@@ -13,13 +13,16 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Slf4j
 public class SourceNode<K, V> {
     private final Collection<String> topicCollection;
     private final ParallelKStreamProperties properties;
+    private final Set<String> childRefs = new HashSet<>();
     private ParallelStreamProcessor<K, V> processor;
 
     public SourceNode(Collection<String> topicCollection, ParallelKStreamProperties properties) {
@@ -32,6 +35,10 @@ public class SourceNode<K, V> {
 
     public void init() {
         this.processor = createParallelStreamProcessor(topicCollection, properties);
+    }
+
+    public void addChildRef(String childRef) {
+        childRefs.add(childRef);
     }
 
     public void start(java.util.function.Consumer<PollContext<K, V>> pollContextConsumer) {

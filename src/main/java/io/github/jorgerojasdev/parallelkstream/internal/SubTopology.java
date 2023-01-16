@@ -78,6 +78,11 @@ public class SubTopology<K, V> {
 
     public void addNode(Node<?, ?, ?, ?> parentNode, Node<?, ?, ?, ?> node) {
         if (parentNode == null) {
+            if (sourceNode != null) {
+                sourceNode.addChildRef(node.getNodeName());
+                nodeMap.put(node.getNodeName(), node);
+                return;
+            }
             nodeMap.put(START_NODE_ID, node);
             return;
         }
@@ -86,9 +91,21 @@ public class SubTopology<K, V> {
     }
 
     public void process(Record<?, ?> recordKv) {
-        Node<?, ?, ?, ?> nextNode = nodeMap.get(START_NODE_ID);
 
-        processNode(nextNode, recordKv);
+        if (nodeMap.containsKey(START_NODE_ID)) {
+            process(recordKv, START_NODE_ID);
+            return;
+        }
+
+        sourceNode.getChildRefs().forEach(childRef -> process(recordKv, childRef));
+    }
+
+    public void process(Record<?, ?> recordKv, String nodeRef) {
+        Node<?, ?, ?, ?> nextNode = nodeMap.get(nodeRef);
+
+        if (nextNode != null) {
+            processNode(nextNode, recordKv);
+        }
     }
 
     private void processNode(Node<?, ?, ?, ?> node, Record<?, ?> recordKv) {
@@ -107,7 +124,7 @@ public class SubTopology<K, V> {
     }
 
     private void processNestedRecord(Node<?, ?, ?, ?> node, Record<?, ?> nextRecord) {
-        for (String childRef : node.getChildren()) {
+        for (String childRef : node.toChildrenRefs(nextRecord)) {
             Node<?, ?, ?, ?> childNode = nodeMap.get(childRef);
 
             if (childNode == null) {

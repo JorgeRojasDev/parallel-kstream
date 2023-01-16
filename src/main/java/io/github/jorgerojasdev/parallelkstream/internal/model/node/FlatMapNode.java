@@ -14,7 +14,7 @@ public class FlatMapNode<K, V, NK, NV> extends Node<K, V, NK, NV> {
     public static final String DEFAULT_NAME = "P-KSTREAM-FLATMAP";
 
     public FlatMapNode(Function<Record<K, V>, Stream<KeyValue<NK, NV>>> flatMapFunction) {
-        super(NodeUtils.defaultNodeName(DEFAULT_NAME), modifyFlatMapFunction(flatMapFunction));
+        this(NodeUtils.defaultNodeName(DEFAULT_NAME), flatMapFunction);
     }
 
     public FlatMapNode(String nodeName, Function<Record<K, V>, Stream<KeyValue<NK, NV>>> flatMapFunction) {

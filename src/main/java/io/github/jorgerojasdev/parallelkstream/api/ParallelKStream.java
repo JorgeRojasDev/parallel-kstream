@@ -31,7 +31,7 @@ public interface ParallelKStream<K, V> {
 
     ParallelKStream<K, V> peek(Consumer<Record<K, V>> peekConsumer);
 
-    ParallelBranchedKStream<K, V> split();
+    ParallelBranchingKStream<K, V> split();
 
     void forEach(Consumer<Record<K, V>> peekConsumer);
 

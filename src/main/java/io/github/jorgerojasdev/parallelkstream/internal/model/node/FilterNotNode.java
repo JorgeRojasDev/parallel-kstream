@@ -14,7 +14,7 @@ public class FilterNotNode<K, V> extends Node<K, V, K, V> {
     public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FILTER-NOT";
 
     public FilterNotNode(Predicate<Record<K, V>> predicate) {
-        super(NodeUtils.defaultNodeName(DEFAULT_NAME), filterFunction(predicate));
+        this(NodeUtils.defaultNodeName(DEFAULT_NAME), predicate);
     }
 
     public FilterNotNode(String nodeName, Predicate<Record<K, V>> predicate) {

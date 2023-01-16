@@ -13,7 +13,7 @@ public class MapNode<K, V, NK, NV> extends Node<K, V, NK, NV> {
     public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-MAP";
 
     public MapNode(Function<Record<K, V>, KeyValue<NK, NV>> mapFunction) {
-        super(NodeUtils.defaultNodeName(DEFAULT_NAME), modifyMapFunction(mapFunction));
+        this(NodeUtils.defaultNodeName(DEFAULT_NAME), mapFunction);
     }
 
     public MapNode(String nodeName, Function<Record<K, V>, KeyValue<NK, NV>> mapFunction) {

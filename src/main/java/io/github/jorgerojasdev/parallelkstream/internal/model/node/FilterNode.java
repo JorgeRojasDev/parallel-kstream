@@ -14,7 +14,7 @@ public class FilterNode<K, V> extends Node<K, V, K, V> {
     public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FILTER";
 
     public FilterNode(Predicate<Record<K, V>> predicate) {
-        super(NodeUtils.defaultNodeName(DEFAULT_NAME), filterFunction(predicate));
+        this(NodeUtils.defaultNodeName(DEFAULT_NAME), predicate);
     }
 
     public FilterNode(String nodeName, Predicate<Record<K, V>> predicate) {

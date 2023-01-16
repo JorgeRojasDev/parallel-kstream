@@ -14,7 +14,7 @@ public class ForEachNode<K, V> extends Node<K, V, K, V> {
     public static final String DEFAULT_NAME = "PARALLEL-KSTREAM-FOREACH";
 
     public ForEachNode(Consumer<Record<K, V>> peekConsumer) {
-        super(NodeUtils.defaultNodeName(DEFAULT_NAME), forEachFunction(peekConsumer));
+        this(NodeUtils.defaultNodeName(DEFAULT_NAME), peekConsumer);
     }
 
     public ForEachNode(String nodeName, Consumer<Record<K, V>> peekConsumer) {
